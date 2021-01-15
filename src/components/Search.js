@@ -1,5 +1,30 @@
 import React, { Component } from 'react';
 import Results from './Results';
+import styled from 'styled-components';
+
+const SearchContainer = styled.div`
+    padding: 50px;
+    border: 1px solid black;
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        input[type=search] {
+            font-family: FontAwesome;
+            margin-top: 10px;
+            padding: 10px;
+        }
+    }
+
+`;
+
+const ResultsContainer = styled.div`
+    width: 40%;
+    padding: 50px;
+    margin-top: 50px;
+    border: 1px solid black;
+`;
 
 class Search extends Component {
     state = {
@@ -35,15 +60,16 @@ class Search extends Component {
 
         return (
             <>
-                <h2>Search for a movie!</h2>
-                <form  onSubmit={this.api}>
-                    <label htmlFor="search">Movie Title:</label>
-                    <input type="search" id="search" name="search" placeholder="Enter Movie" value={userInput} onChange={this.searchParam} />
-                </form>
+                <SearchContainer>
+                    <form  onSubmit={this.api}>
+                        <label htmlFor="search">Movie Title</label>
+                        <input type="search" id="search" name="search" placeholder="&#xf002;  Enter Movie" value={userInput} onChange={this.searchParam} />
+                    </form>
+                </SearchContainer>
 
-                <div className="resContainer">
+                <ResultsContainer className="resContainer">
                     <Results res={res} />
-                </div>
+                </ResultsContainer>
             </>
         );
     }
