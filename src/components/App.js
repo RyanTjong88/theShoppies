@@ -16,7 +16,7 @@ class App extends Component {
   render() {
     return (
       <>
-        <Global>
+        <Global className="wrapper">
           <h1>The Shoppies</h1>
           <Search />
         </Global>
