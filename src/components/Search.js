@@ -4,22 +4,16 @@ import Results from './Results';
 class Search extends Component {
     state = {
         userInput: '',
-        titles: [],
-        releaseDates: [],
+        res: []
     }
 
-// add user input to search state
-// make a fetch call
-// handle error if no movie is found
-// display title, year of release and a button to nominate that film.
-    searchQuery = (e) => {
-        console.log(e.target.value)
+    searchParam = (e) => {
         this.setState({
             userInput: e.target.value
         })
     } 
 
-    search = (e) => {
+    api = (e) => {
         const { userInput } = this.state;
         
         e.preventDefault();
@@ -27,58 +21,29 @@ class Search extends Component {
         fetch(url) 
             .then(response => response.json())
             .then(data => {
-                // console.log(data)
-                const res = data;
-
-                const titles = res.Search.map(movies => {
-                    return movies.Title;
-                })
-                
-                const releaseDates = res.Search.map(movies => {
-                    return movies.Year;
-                })
-                
+                const res = data.Search;
+                console.log(res)
 
                 this.setState({
-                    titles,
-                    releaseDates
+                    res
                 })
-            });
-
-
-
-            
-            // const results = data.
-            // method: "GET",
-            // withCredentials: true,
-            // headers: {
-            //     "X-Auth-Token": "ef72570ff371408f9668e414353b7b2e",
-            //     "Content-Type": "application/json"
-            // }
-            // })
-            // .then(resp => resp.json())
-            // .then(function(data) {
-            //     console.log(data);
-            // })
-            // .catch(function(error) {
-            //     console.log(error);
-            
-            
-            
+            });            
     };
     
     render() {
-        const { userInput, titles, releaseDates } = this.state;
-        
+        const { userInput, res } = this.state;
+
         return (
             <>
                 <h2>Search for a movie!</h2>
-                <form  onSubmit={this.search}>
+                <form  onSubmit={this.api}>
                     <label htmlFor="search">Movie Title:</label>
-                    <input type="search" id="search" name="search" placeholder="Enter Movie" value={userInput} onChange={this.searchQuery} />
+                    <input type="search" id="search" name="search" placeholder="Enter Movie" value={userInput} onChange={this.searchParam} />
                 </form>
 
-                <Results title={titles} releaseDate={releaseDates} />
+                <div className="resContainer">
+                    <Results res={res} />
+                </div>
             </>
         );
     }
