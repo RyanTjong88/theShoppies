@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Nominations from './Nominations';
+import firebase from '../firebase';  
 import styled from 'styled-components';
-
-
 
 const MainContainer = styled.div`
     display: flex;
@@ -43,33 +42,40 @@ const MainContainer = styled.div`
 class Results extends Component {
 
     state = {
-        // nominated: [
-        //     {
-        //         id: '',
-        //         title: '',
-        //         releaseDate: '',
-        //     }
-        // ]
-        nominee: [],
-        storetitle: '',
-        storereleaseDate: '',
+        firebaseData: {
+            nomtitle: '',
+            nomyear: '',
+            nomid: ''
+        }
     }
 
+    // open portal to Firebase
+    dbRef = firebase.database().ref()
+
     nominate = (e) => {
-        console.log(e.target.value)
-        // after user click the button, remove div and add it to the nominated container
-        // const { storetitle, stoereleaseDate, id } = this.props;
-        //     const title = results.Title
-        //     const releaseDate = results.Year
-        //     const id = results.imdbID
-        // this.setState({
-        //     id, 
-        //     title,
-        //     releaseDate
-        // })
+        e.preventDefault();
+        console.log(e.target.attributes.nomtitle.value, e.target.attributes.nomyear.value,e.target.attributes.nomid.value)
+
+            const nomtitle = e.target.attributes.nomtitle.value
+            const nomyear =  e.target.attributes.nomyear.value
+            const nomid =  e.target.attributes.nomid.value
+
+            this.setState({
+                firebaseData: {
+                    nomtitle,
+                    nomyear,
+                    nomid
+                }
+            }, () => {
+                // add new record to Firebase
+                this.dbRef.push(this.state.firebaseData)
+            }) 
     }
 
     render() {
+
+        const { nomtitle, nomyear, nomid } = this.state.firebaseData;
+
         const displayResults = this.props.res.map(results => {
             const title = results.Title
             const releaseDate = results.Year
@@ -78,7 +84,14 @@ class Results extends Component {
             return   <ul key={id}>
                         <li key={id} id={id}>
                             <p>{title} ({releaseDate})</p>
-                            <button value={id} onClick={this.nominate}>Nominate</button>
+                            <button 
+                                onClick={this.nominate}
+                                nomtitle={title} 
+                                nomyear={releaseDate}
+                                nomid={id}
+                            >
+                            Nominate
+                            </button>
                         </li>
                     </ul>
         });
@@ -87,7 +100,12 @@ class Results extends Component {
                 <div>
                     {displayResults}
                 </div>
-                <Nominations className="nominations" />
+                <Nominations 
+                    className="nominations" 
+                    title={nomtitle}
+                    year={nomyear}
+                    id={nomid}
+                />
             </MainContainer>
         );
     }

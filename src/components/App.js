@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Search from './Search';
+import '../App.css';
+
 import styled from 'styled-components';
 
 const Global = styled.div`
-    width: 90%;
-    max-width: 1280px;
-    margin: 0 auto;
 
     h1 {
       font-size: 3rem;
