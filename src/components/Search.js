@@ -33,13 +33,14 @@ class Search extends Component {
         loading: '',
         display: ''
     }
-
+// Update userInput to a string with the users movie title search word
     searchParam = (e) => {
         this.setState({
             userInput: e.target.value,
         })
     } 
 
+// Fetch / Get data from the API
     api = (e) => {
         const { userInput} = this.state;
         
@@ -54,12 +55,6 @@ class Search extends Component {
             .then(response => response.json())
             .then(data => {
                 const res = data.Search;
-                console.log(res)
-                
-                // if(res === [])
-                //     this.setState({
-                //         loading: 'Loading Results'
-                // })
 
                 if(!res) {
                     this.setState({
