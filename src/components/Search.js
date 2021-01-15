@@ -16,7 +16,6 @@ const SearchContainer = styled.div`
             padding: 10px;
         }
     }
-
 `;
 
 const ResultsContainer = styled.div`
