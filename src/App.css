@@ -36,10 +36,10 @@ input {
   margin: 0 auto;
 }
 
-ul {
+/* ul {
   display: flex;
   justify-content: center;
-}
+} */
 
 li {
   width: 90%;

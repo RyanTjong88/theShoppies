@@ -31,7 +31,7 @@ class Results extends Component {
             nomid: ''
         },
         movieArray: [],
-        disable: 'okay',
+        test: '',
     }
 
     // open portal to Firebase
@@ -49,31 +49,26 @@ class Results extends Component {
                     movie: movies[property]
                 });  
             }
-
-            let movieId = this.state.movieArray.map(array => {
-                // movieId = array.movie.nomid   
-                console.log(array.movie.nomid )
-            })
-
-            // console.log(movieArray)
-            
             this.setState({
-                movieArray
+                movieArray,
             })
-            // , () => {
-            //     if(this.state.movieArray.length) {
-            //         this.setState({
-            //             count: this.state.movieArray.length
-            //         })
-            //     }
-            // })
 
-            console.log('dont give up')
+            // console.log(this.state.movieArray)
+            const test2 = []
+            this.state.movieArray.map(array => {
+                test2.push(array.movie.nomid) 
+            })
+
+            this.setState({
+                test: test2
+            })
         })
     }  
     
 
     nominate = (e) => {
+
+        
         e.preventDefault();
         console.log(e.target.attributes.nomtitle.value, e.target.attributes.nomyear.value,e.target.attributes.nomid.value)
 
@@ -82,26 +77,11 @@ class Results extends Component {
             const nomid =  e.target.attributes.nomid.value
 
             this.state.movieArray.map(array => {
-                // if(array.movie.nomid === nomid && array.movie.nomtitle === array.movie.nomtitlew
 
-                const test2 = array.movie.nomid
-                // console.log(test2)
-                // console.log(nomid)
+                this.setState({
+                    test: array.movie.nomid
+                })
 
-
-                // if(array.movie.nomid === nomid) {
-                //     console.log(nomid)
-                //     this.setState({
-                //         disable: ''
-                //     })
-                // }
-
-                if(array.movie.nomid != nomid) {
-                    console.log(nomid)
-                    this.setState({
-                        disable: 'okay'
-                    })
-                }
             })
 
             this.setState({
@@ -114,22 +94,66 @@ class Results extends Component {
                 // add new record to Firebase
                 this.dbRef.push(this.state.firebaseData)
             },) 
+            
     }
 
-    render() {
-        console.log(this.state.movieArray)
+    checkID = (id) => {
+        // console.log(this.state.test);
+            let result = false
+            if(typeof this.state.test === 'object' ) {
+                
+            console.log(typeof this.state.test);
 
+                this.state.test.forEach(test2 => {
+            // console.log(test2 === id);
+                    // test2
+                    if(test2 === id) {
+            console.log(test2, id);
+
+                    result = true
+                    }
+                }) 
+            }
+            return result
+        }
+
+    render() {
         const displayResults = this.props.res.map(results => {
             const title = results.Title
             const releaseDate = results.Year
             const id = results.imdbID
-            
-            return  (<ul key={id} >
-                        <li className="storedMovies" key={id} id={id}>
+            // console.log(id);
+
+
+            // const checkID = () => {
+            // // console.log(this.state.test);
+            //     let result = false
+            //     if(typeof this.state.test === 'object' ) {
+                    
+            //     console.log(typeof this.state.test);
+
+            //         this.state.test.forEach(test2 => {
+            //     // console.log(test2 === id);
+            //             // test2
+            //             if(test2 === id) {
+            //     console.log(test2, id);
+    
+            //             result = true
+            //             }
+            //         }) 
+            //     }
+            //     return result
+            // }
+
+            const isDisabled = this.checkID(id);
+            console.log(isDisabled)
+            return  (  
+
+                <li className="storedMovies" key={id} id={id}>
                             <p>{title} ({releaseDate})</p>
                             <button 
-                                disabled={!this.state.disable}
-                                onClick={this.nominate}
+                                disabled={isDisabled ? 't' : null }
+                                onClick={this.nominate} 
                                 nomtitle={title} 
                                 nomyear={releaseDate}
                                 nomid={id}
@@ -137,13 +161,19 @@ class Results extends Component {
                             Nominate
                             </button>
                         </li>
-                    </ul>
+                // {/* </div> */}
+        
+                        
             );
         });
+
         return (
             <MainContainer>
                 <div className="results">
-                    {displayResults}
+                    <ul>
+                        {displayResults}
+                    </ul>
+
                 </div>
                 <Nominations className="nominations" />
             </MainContainer>
