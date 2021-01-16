@@ -68,9 +68,17 @@ class Nominations extends Component {
         })
 
         return (
-                <div>
-                    { this.state.count === 5 ? <p className="nomCount">You have nominated {this.state.count} movies</p> : null }
-                    {/* <p hidden={!this.state.disabled}>Nominations {this.state.count}</p> */}
+                <div className="nomContainer">
+                    { this.state.count === 5 
+
+                    ? 
+                    
+                    <p className="nomCount">You have nominated {this.state.count} movies</p> 
+
+                    :
+
+                    null}
+
                     {nominated}
                 </div>
         );

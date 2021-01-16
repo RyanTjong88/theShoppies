@@ -44,6 +44,10 @@ ul {
 li {
   width: 90%;
 }
+
+p {
+  color: #FFF;
+}
 button {
   background-color: #000;
   color: #FFF;
@@ -53,14 +57,24 @@ button {
   margin-left: 20px;
   font-size: 1.2rem
 }
+/* APP COMPONENT */
+h1 {
+  font-size: 3rem;
+}
 
 /* NOMINATION COMPONENT */
+
+.nomContainer {
+  width: 48%;
+}
+
 .nomCount {
   font-size: 3rem;
   width: 90%;
   padding: 20px;
   margin: 5%;
   background-color: #FFF;
+  border-radius: 5px;
   color: #000;
   text-align: center;
 }
