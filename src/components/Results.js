@@ -46,7 +46,9 @@ class Results extends Component {
             nomtitle: '',
             nomyear: '',
             nomid: ''
-        }
+        },
+        count: 0,
+        disabled: 'on'
     }
 
     // open portal to Firebase
@@ -70,6 +72,18 @@ class Results extends Component {
                 // add new record to Firebase
                 this.dbRef.push(this.state.firebaseData)
             }) 
+
+        const count = this.state.count + 1;
+
+        this.setState({
+            count
+        })
+
+        if(this.state.count  === 4){
+            this.setState({
+                disabled: ''
+            })
+        }
     }
 
     render() {
@@ -85,6 +99,7 @@ class Results extends Component {
                         <li key={id} id={id}>
                             <p>{title} ({releaseDate})</p>
                             <button 
+                                disabled={!this.state.disabled}
                                 onClick={this.nominate}
                                 nomtitle={title} 
                                 nomyear={releaseDate}
@@ -102,9 +117,6 @@ class Results extends Component {
                 </div>
                 <Nominations 
                     className="nominations" 
-                    title={nomtitle}
-                    year={nomyear}
-                    id={nomid}
                 />
             </MainContainer>
         );
