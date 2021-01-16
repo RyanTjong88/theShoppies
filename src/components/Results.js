@@ -93,8 +93,7 @@ class Results extends Component {
             }, () => {
                 // add new record to Firebase
                 this.dbRef.push(this.state.firebaseData)
-            },) 
-            
+            }) 
     }
 
     checkID = (id) => {
@@ -102,13 +101,13 @@ class Results extends Component {
             let result = false
             if(typeof this.state.test === 'object' ) {
                 
-            console.log(typeof this.state.test);
+            // console.log(typeof this.state.test);
 
                 this.state.test.forEach(test2 => {
             // console.log(test2 === id);
                     // test2
                     if(test2 === id) {
-            console.log(test2, id);
+            // console.log(test2, id);
 
                     result = true
                     }
@@ -118,6 +117,8 @@ class Results extends Component {
         }
 
     render() {
+
+        console.log(this.state.test)
         const displayResults = this.props.res.map(results => {
             const title = results.Title
             const releaseDate = results.Year
@@ -146,7 +147,7 @@ class Results extends Component {
             // }
 
             const isDisabled = this.checkID(id);
-            console.log(isDisabled)
+            // console.log(isDisabled)
             return  (  
 
                 <li className="storedMovies" key={id} id={id}>
