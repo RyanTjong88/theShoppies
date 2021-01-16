@@ -27,7 +27,7 @@ const SearchContainer = styled.div`
 
 const ResultsContainer = styled.div`
     padding: 20px;
-    margin-top: 20px;
+    margin: 20px 0;
     border: 1px solid black;
 `;
 

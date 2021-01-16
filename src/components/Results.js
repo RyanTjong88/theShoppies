@@ -10,8 +10,7 @@ const MainContainer = styled.div`
     
     div {
         background-color: rgb(0, 128, 96);
-        border: 2px solid black;
-
+        padding-top: 20px;
         ul li {
             display: flex;
         }
@@ -20,7 +19,6 @@ const MainContainer = styled.div`
     .results {
         width: 48%;
         min-height: 600px;
-        color: #FFF;
     }
 `;
 
