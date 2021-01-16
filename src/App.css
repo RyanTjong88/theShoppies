@@ -8,12 +8,66 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; border: 0; padding: 0; white-space: nowrap; clip-path: inset(100%); clip: rect(0 0 0 0); overflow: hidden;}
 
+/* STRIP MARGIN/PADDING */
+div,
+p, 
+h1,
+h2,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+/* GLOBALL STYLES */
 html {
+  font-family: 'Luckiest Guy', cursive;
   font-size: 62.5%;
+}
+
+div,
+input {
+  border-radius: 5px;
 }
 
 .wrapper {
   width: 90%;
   max-width: 1280px;
   margin: 0 auto;
+}
+
+ul {
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  width: 90%;
+}
+button {
+  background-color: #000;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin-left: 20px;
+  font-size: 1.2rem
+}
+
+/* NOMINATION COMPONENT */
+.nomCount {
+  font-size: 3rem;
+  width: 90%;
+  padding: 20px;
+  margin: 5%;
+  background-color: #FFF;
+  color: #000;
+  text-align: center;
+}
+
+.storedMovies {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
 }
