@@ -11,8 +11,14 @@ const SearchContainer = styled.div`
         display: flex;
         flex-direction: column;
 
+        label {
+            font-weight: 400;
+            font-size: 3rem;
+        }
+
         input[type=search] {
             font-family: FontAwesome;
+            font-size: 2rem;
             margin-top: 10px;
             padding: 10px;
         }
@@ -43,7 +49,7 @@ class Search extends Component {
 // Fetch / Get data from the API
     api = (e) => {
         const { userInput} = this.state;
-        
+
         e.preventDefault();
 
         this.setState({
@@ -60,7 +66,6 @@ class Search extends Component {
                     this.setState({
                         error: 'Movie title not found',
                         display: ''
-
                     })
                 }
 
@@ -69,11 +74,8 @@ class Search extends Component {
                         res,
                         error: '',
                         display: `Results for "${userInput}"`
-
                     })
                 }
-
-
             });            
     };
     

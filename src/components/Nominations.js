@@ -5,13 +5,12 @@ class Nominations extends Component {
 
     state = {
         movieArray: [],
-        banner: ''
+        count: 0
     }
 
     // open portal to Firebase
     dbRef = firebase.database().ref();
 
-    com
     //pull data from firebase only the first 5 objects
     componentDidMount() {
         this.dbRef.on('value', (response) => {
@@ -20,15 +19,20 @@ class Nominations extends Component {
             const movieArray = []
             
             for (const property in movies) {
-
                 movieArray.push({
                     key: property, 
                     movie: movies[property]
                 });  
             }
-
+            // console.log(movieArray)
             this.setState({
                 movieArray
+            }, () => {
+                if(this.state.movieArray.length) {
+                    this.setState({
+                        count: this.state.movieArray.length
+                    })
+                }
             })
         })
     }
@@ -40,31 +44,33 @@ class Nominations extends Component {
     }
 
     render() {
-
         const nominated = this.state.movieArray.map(array => {
-            // console.log(array)
+            
             const title = array.movie.nomtitle
             const releaseDate = array.movie.nomyear
             const id = array.movie.nomid
             const key = array.key
             
-
-            return <ul key={key}>
+            return (<ul key={key}>
                         <li key={key} id={id}>
-                            <p>{title} ({releaseDate})</p>
-                            <button 
-                                onClick={() => this.handleRemove(key)}
-                                key={key}
-                            >
-                            Remove
-                            </button>
+                            <div className="storedMovies">
+                                <p>{title} ({releaseDate})</p>
+                                <button 
+                                    onClick={() => this.handleRemove(key)}
+                                    key={key}
+                                >
+                                Remove
+                                </button>
+                            </div>
                         </li>
                     </ul>
+            );
         })
 
         return (
                 <div>
-                    <p>{this.state.banner}</p>
+                    { this.state.count === 5 ? <p className="nomCount">You have nominated {this.state.count} movies</p> : null }
+                    {/* <p hidden={!this.state.disabled}>Nominations {this.state.count}</p> */}
                     {nominated}
                 </div>
         );

@@ -10,32 +10,17 @@ const MainContainer = styled.div`
     
     div {
         background-color: rgb(0, 128, 96);
-        border: 1px solid black;
+        border: 2px solid black;
 
         ul li {
             display: flex;
         }
     }
 
-    .nominations {
-        background-color: blue;
-    }
-
-    div,
-    .nominations {
+    .results {
         width: 48%;
         min-height: 600px;
         color: #FFF;
-
-        button {
-            background-color: #000;
-            color: #FFF;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            margin-left: 20px;
-            font-size: 1.2rem
-        }
     }
 `;
 
@@ -47,12 +32,48 @@ class Results extends Component {
             nomyear: '',
             nomid: ''
         },
-        count: 0,
-        disabled: 'on'
+        movieArray: [],
+        disable: 'okay',
     }
 
     // open portal to Firebase
     dbRef = firebase.database().ref()
+        
+    componentDidMount() {
+        this.dbRef.on('value', (response) => {
+
+            const movies = response.val()
+            const movieArray = []
+            
+            for (const property in movies) {
+                movieArray.push({
+                    key: property, 
+                    movie: movies[property]
+                });  
+            }
+
+            let movieId = this.state.movieArray.map(array => {
+                // movieId = array.movie.nomid   
+                console.log(array.movie.nomid )
+            })
+
+            // console.log(movieArray)
+            
+            this.setState({
+                movieArray
+            })
+            // , () => {
+            //     if(this.state.movieArray.length) {
+            //         this.setState({
+            //             count: this.state.movieArray.length
+            //         })
+            //     }
+            // })
+
+            console.log('dont give up')
+        })
+    }  
+    
 
     nominate = (e) => {
         e.preventDefault();
@@ -61,6 +82,29 @@ class Results extends Component {
             const nomtitle = e.target.attributes.nomtitle.value
             const nomyear =  e.target.attributes.nomyear.value
             const nomid =  e.target.attributes.nomid.value
+
+            this.state.movieArray.map(array => {
+                // if(array.movie.nomid === nomid && array.movie.nomtitle === array.movie.nomtitlew
+
+                const test2 = array.movie.nomid
+                // console.log(test2)
+                // console.log(nomid)
+
+
+                // if(array.movie.nomid === nomid) {
+                //     console.log(nomid)
+                //     this.setState({
+                //         disable: ''
+                //     })
+                // }
+
+                if(array.movie.nomid != nomid) {
+                    console.log(nomid)
+                    this.setState({
+                        disable: 'okay'
+                    })
+                }
+            })
 
             this.setState({
                 firebaseData: {
@@ -71,35 +115,22 @@ class Results extends Component {
             }, () => {
                 // add new record to Firebase
                 this.dbRef.push(this.state.firebaseData)
-            }) 
-
-        const count = this.state.count + 1;
-
-        this.setState({
-            count
-        })
-
-        if(this.state.count  === 4){
-            this.setState({
-                disabled: ''
-            })
-        }
+            },) 
     }
 
     render() {
-
-        const { nomtitle, nomyear, nomid } = this.state.firebaseData;
+        console.log(this.state.movieArray)
 
         const displayResults = this.props.res.map(results => {
             const title = results.Title
             const releaseDate = results.Year
             const id = results.imdbID
             
-            return   <ul key={id}>
-                        <li key={id} id={id}>
+            return  (<ul key={id} >
+                        <li className="storedMovies" key={id} id={id}>
                             <p>{title} ({releaseDate})</p>
                             <button 
-                                disabled={!this.state.disabled}
+                                disabled={!this.state.disable}
                                 onClick={this.nominate}
                                 nomtitle={title} 
                                 nomyear={releaseDate}
@@ -109,15 +140,14 @@ class Results extends Component {
                             </button>
                         </li>
                     </ul>
+            );
         });
         return (
             <MainContainer>
-                <div>
+                <div className="results">
                     {displayResults}
                 </div>
-                <Nominations 
-                    className="nominations" 
-                />
+                <Nominations className="nominations" />
             </MainContainer>
         );
     }
