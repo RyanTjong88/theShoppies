@@ -44,6 +44,7 @@ class Nominations extends Component {
     }
 
     render() {
+        console.log(this.state.movieArray.length)
         const nominated = this.state.movieArray.map(array => {
             
             const title = array.movie.nomtitle
