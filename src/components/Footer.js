@@ -5,7 +5,6 @@ const FooterStyle = styled.div`
     display: flex;
     justify-content: center;
     
-    
     p {
         background-color: rgb(0, 128, 96);
         color: #FFF;
@@ -25,7 +24,6 @@ const FooterStyle = styled.div`
         }
     }
 `;
-
 
 const Footer = () => {
     return (
