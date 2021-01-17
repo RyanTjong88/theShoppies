@@ -56,7 +56,7 @@ class Results extends Component {
             // console.log(this.state.movieArray)
             const test2 = []
             this.state.movieArray.map(array => {
-                test2.push(array.movie.nomid) 
+                return test2.push(array.movie.nomid) 
             })
 
             this.setState({
@@ -78,10 +78,9 @@ class Results extends Component {
 
             this.state.movieArray.map(array => {
 
-                this.setState({
-                    test: array.movie.nomid
-                })
-
+                return  this.setState({
+                            test: array.movie.nomid
+                        })
             })
 
             this.setState({

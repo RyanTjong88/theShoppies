@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Results from './Results';
 import styled from 'styled-components';
-// import Nominations from './Nominations';
 
 const SearchContainer = styled.div`
     padding: 20px;
@@ -29,6 +28,12 @@ const ResultsContainer = styled.div`
     padding: 20px;
     margin: 20px 0;
     border: 1px solid black;
+
+    .resultInfo {
+        font-size: 3rem;
+        color: #000;
+        margin-bottom: 20px;
+    }
 `;
 
 class Search extends Component {
@@ -56,12 +61,13 @@ class Search extends Component {
             res: []
         })
 
-        const url = `http://www.omdbapi.com/?s=${userInput}&apikey=f33f3c27`;
+        const url = `https://www.omdbapi.com/?s=${userInput}&apikey=f33f3c27`;
         fetch(url) 
             .then(response => response.json())
             .then(data => {
                 const res = data.Search;
 
+                // ERROR HANDLING IF DATA NT RETURN FROM API
                 if(!res) {
                     this.setState({
                         error: 'Movie title not found',
@@ -69,6 +75,7 @@ class Search extends Component {
                     })
                 }
 
+                // DISPLAYS THE MOVIE TITLE THAT WAS SEARCHED
                 if(res) {
                     this.setState({
                         res,
@@ -92,11 +99,9 @@ class Search extends Component {
                 </SearchContainer>
 
                 <ResultsContainer className="resContainer">
-                    <p>{error}{loading}{display}</p>
+                    <p className="resultInfo">{error}{loading}{display}</p>
                     <Results res={res} />
                 </ResultsContainer>
-
-                {/* <Nominations props={res}  /> */}
             </>
         );
     }
