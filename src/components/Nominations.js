@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';  
+import styled from 'styled-components';
+
+const Loading = styled.div`
+    font-weight: 900;
+    font-size: 2rem;
+    color: #000;
+    padding: 50px;
+`;
 
 class Nominations extends Component {
 
     state = {
         movieArray: [],
-        count: 0
+        count: 0,
     }
 
     // open portal to Firebase
     dbRef = firebase.database().ref();
 
-    //pull data from firebase only the first 5 objects
+    //pull data from firebase
     componentDidMount() {
         this.dbRef.on('value', (response) => {
 
@@ -24,7 +32,6 @@ class Nominations extends Component {
                     movie: movies[property]
                 });  
             }
-            // console.log(movieArray)
             this.setState({
                 movieArray
             }, () => {
@@ -37,13 +44,15 @@ class Nominations extends Component {
         })
     }
 
-    // Remove Saved Song
+    // Remove Saved Song from DOM
     handleRemove = (key) => {
-        // Remove data stored in key
+
+        // Remove from database
         this.dbRef.child(key).remove(); 
     }
 
     render() {
+        // maps through movies stored in firebase
         const nominated = this.state.movieArray.map(array => {
             
             const title = array.movie.nomtitle
@@ -51,36 +60,38 @@ class Nominations extends Component {
             const id = array.movie.nomid
             const key = array.key
             
-            return (<ul key={key}>
-                        <li key={key} id={id}>
+            return (    <li key={key} id={id}>
                             <div className="storedMovies">
                                 <p>{title} ({releaseDate})</p>
-                                <button 
-                                    onClick={() => this.handleRemove(key)}
-                                    key={key}
-                                >
+                                <button onClick={() => this.handleRemove(key)} key={key}>
                                 Remove
                                 </button>
                             </div>
                         </li>
-                    </ul>
             );
         })
 
         return (
-                <div className="nomContainer">
-                    { this.state.count === 5 
+            <div className="nomContainer">
+                {/* informs user the nominated movies are being loaded  */}
+                { this.state.count === 0
+                ?
+                <Loading>loading list of nominated movies...</Loading>
+                :
+                null               
+                }
 
-                    ? 
-                    
-                    <p className="nomCount">You have nominated {this.state.count} movies</p> 
+                {/* ternary operator which displays a banner when 5 movies have been nominated */}
+                { this.state.count === 5 
+                ?                     
+                <p className="nomCount">You have nominated {this.state.count} movies</p> 
+                :
+                null}
 
-                    :
-
-                    null}
-
+                <ul>
                     {nominated}
-                </div>
+                </ul>
+            </div>
         );
     }
 }

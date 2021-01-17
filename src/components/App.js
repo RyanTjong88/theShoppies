@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <div className="bodyColor">
         <div className="wrapper">
-          <h1>The Shoppies</h1>
+          <h1>The Shoppies<span className="headerBackground">The Shoppies</span></h1>
           <Search />
         </div>
         <Footer />
