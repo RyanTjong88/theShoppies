@@ -120,7 +120,6 @@ class Results extends Component {
             const isDisabled = this.checkID(id);
 
             return  (  
-
                 <li className="storedMovies" key={id} id={id}>
                     <p>{title} ({releaseDate})</p>
                     <button 
