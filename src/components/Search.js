@@ -12,14 +12,22 @@ const SearchContainer = styled.div`
 
         label {
             font-weight: 400;
-            font-size: 3rem;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
         }
 
         input[type=search] {
             font-family: FontAwesome;
             font-size: 2rem;
             margin-top: 10px;
-            padding: 10px;
+            padding: 5px 10px;
+            transition: all .3s;
+        }
+
+        input[type=search]:hover,
+        input[type=search]:focus {
+            background-color: rgb(0,128,96);
+            color: #FFF;
         }
     }
 `;
@@ -30,7 +38,8 @@ const ResultsContainer = styled.div`
     border: 1px solid black;
 
     .resultInfo {
-        font-size: 3rem;
+        font-size: 2.5rem;
+        letter-spacing: 2px;
         color: #000;
         margin-bottom: 20px;
     }

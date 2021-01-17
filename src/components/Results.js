@@ -20,6 +20,15 @@ const MainContainer = styled.div`
         width: 48%;
         min-height: 600px;
     }
+
+    /* TABLET MEDIA QUERY*/
+    @media (max-width: 850px) {
+        flex-direction: column;
+
+        .results {
+            width: 100%;
+        }
+    }
 `;
 
 class Results extends Component {
@@ -31,7 +40,7 @@ class Results extends Component {
             nomid: ''
         },
         movieArray: [],
-        test: '',
+        movieIds: '',
     }
 
     // open portal to Firebase
@@ -53,22 +62,18 @@ class Results extends Component {
                 movieArray,
             })
 
-            // console.log(this.state.movieArray)
-            const test2 = []
-            this.state.movieArray.map(array => {
-                return test2.push(array.movie.nomid) 
+            const movieIds = []
+            this.state.movieArray.map(movies => {
+                return movieIds.push(movies.movie.nomid) 
             })
 
             this.setState({
-                test: test2
+                movieIds
             })
         })
     }  
-    
 
     nominate = (e) => {
-
-        
         e.preventDefault();
         console.log(e.target.attributes.nomtitle.value, e.target.attributes.nomyear.value,e.target.attributes.nomid.value)
 
@@ -77,9 +82,8 @@ class Results extends Component {
             const nomid =  e.target.attributes.nomid.value
 
             this.state.movieArray.map(array => {
-
                 return  this.setState({
-                            test: array.movie.nomid
+                            movieIds: array.movie.nomid
                         })
             })
 
@@ -96,19 +100,12 @@ class Results extends Component {
     }
 
     checkID = (id) => {
-        // console.log(this.state.test);
             let result = false
-            if(typeof this.state.test === 'object' ) {
-                
-            // console.log(typeof this.state.test);
 
-                this.state.test.forEach(test2 => {
-            // console.log(test2 === id);
-                    // test2
-                    if(test2 === id) {
-            // console.log(test2, id);
-
-                    result = true
+            if(typeof this.state.movieIds === 'object' ) {
+                this.state.movieIds.forEach(movieId => {
+                    if(movieId === id) {
+                        result = true
                     }
                 }) 
             }
@@ -116,54 +113,26 @@ class Results extends Component {
         }
 
     render() {
-
-        console.log(this.state.test)
         const displayResults = this.props.res.map(results => {
             const title = results.Title
             const releaseDate = results.Year
             const id = results.imdbID
-            // console.log(id);
-
-
-            // const checkID = () => {
-            // // console.log(this.state.test);
-            //     let result = false
-            //     if(typeof this.state.test === 'object' ) {
-                    
-            //     console.log(typeof this.state.test);
-
-            //         this.state.test.forEach(test2 => {
-            //     // console.log(test2 === id);
-            //             // test2
-            //             if(test2 === id) {
-            //     console.log(test2, id);
-    
-            //             result = true
-            //             }
-            //         }) 
-            //     }
-            //     return result
-            // }
-
             const isDisabled = this.checkID(id);
-            // console.log(isDisabled)
+
             return  (  
 
                 <li className="storedMovies" key={id} id={id}>
-                            <p>{title} ({releaseDate})</p>
-                            <button 
-                                disabled={isDisabled ? 't' : null }
-                                onClick={this.nominate} 
-                                nomtitle={title} 
-                                nomyear={releaseDate}
-                                nomid={id}
-                            >
-                            Nominate
-                            </button>
-                        </li>
-                // {/* </div> */}
-        
-                        
+                    <p>{title} ({releaseDate})</p>
+                    <button 
+                        disabled={isDisabled ? 't' : null }
+                        onClick={this.nominate} 
+                        nomtitle={title} 
+                        nomyear={releaseDate}
+                        nomid={id}
+                    >
+                    Nominate
+                    </button>
+                </li>
             );
         });
 
@@ -173,7 +142,6 @@ class Results extends Component {
                     <ul>
                         {displayResults}
                     </ul>
-
                 </div>
                 <Nominations className="nominations" />
             </MainContainer>
