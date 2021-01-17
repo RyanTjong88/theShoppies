@@ -7,6 +7,8 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
 *, *:before, *:after {box-sizing: inherit}
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; border: 0; padding: 0; white-space: nowrap; clip-path: inset(100%); clip: rect(0 0 0 0); overflow: hidden;}
+/* GOOGLE FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
 /* STRIP MARGIN/PADDING */
 div,
@@ -25,41 +27,63 @@ html {
   font-size: 62.5%;
 }
 
+.bodyColor {
+  background-color: rgb(251, 158, 85);
+}
+
+div {
+  background-color: #FFF; 
+}
 div,
 input {
   border-radius: 5px;
 }
 
 .wrapper {
+  background-color: rgb(251, 158, 85);
+
   width: 90%;
   max-width: 1280px;
   margin: 0 auto;
 }
 
-/* ul {
-  display: flex;
-  justify-content: center;
-} */
-
 li {
-  width: 90%;
+  width: 100%;
 }
 
+a {
+  text-decoration: none;
+}
 p {
-  color: #FFF;
+  font-size: 1.8rem;
+  color: rgb(245, 245, 245);
 }
 button {
-  background-color: #000;
+  background-color: rgb(37, 37, 37);
   color: #FFF;
   border: none;
   border-radius: 5px;
+  font-size: 1.6rem;
   padding: 10px;
-  margin-left: 20px;
-  font-size: 1.2rem
+  max-height: 35px;
+  transition: all .5s;
 }
+
+button:focus,
+button:hover {
+  background-color: rgb(251, 158, 85);
+  color: rgb(37, 37, 37);
+  cursor: pointer;
+}
+
 /* APP COMPONENT */
 h1 {
-  font-size: 3rem;
+  background-color: rgb(251, 158, 85);
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 5rem;
+  padding: 20px 0;
+  text-align: center;
+  letter-spacing: 7px;
 }
 
 /* NOMINATION COMPONENT */
@@ -69,7 +93,9 @@ h1 {
 }
 
 .nomCount {
-  font-size: 3rem;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 2.7rem;
+  letter-spacing: 3px;
   width: 90%;
   padding: 20px;
   margin: 5%;
@@ -83,5 +109,30 @@ h1 {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 10px;
+  padding: 10px 30px;
 }
+
+/* MEDIA QUERY */
+@media (max-width: 850px) {
+
+  .nomContainer {
+      width: 100%;
+      margin-top: 20px;
+  }
+}
+
+@media (max-width: 420px) {
+
+  h1 {
+    font-size: 4rem;
+  }
+
+  .storedMovies {
+    flex-direction: column;
+  }
+
+  button {
+    margin-top: 20px;
+  }
+}
+
