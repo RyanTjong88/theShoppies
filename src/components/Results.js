@@ -40,8 +40,7 @@ class Results extends Component {
             nomid: ''
         },
         movieArray: [],
-        movieIds: '',
-        nominated: [],
+        movieIds: [],
     }
 
     // OPEN PORTAL TO FIREBASE
@@ -79,63 +78,39 @@ class Results extends Component {
     nominate = (e) => {
         e.preventDefault();
 
-        // PUSH THE MOVIE ID THE USER HAS NOMINATED TO nominated state
-        this.state.nominated.push(e.target.attributes.nomid.value)
-
         const nomtitle = e.target.attributes.nomtitle.value
         const nomyear =  e.target.attributes.nomyear.value
         const nomid =  e.target.attributes.nomid.value
 
-        this.state.movieIds.push(nomid)
-
-        this.setState({
-            firebaseData: {
-                nomtitle,
-                nomyear,
-                nomid
-            },
-        }, () => {
-            // add new movie to Firebase
-            this.dbRef.push(this.state.firebaseData)
+        this.dbRef.push({
+            nomtitle,
+            nomyear,
+            nomid
+        }).then(() => {
+            // Update movieIds with current nominated list items
+            this.setState(state => ({
+                movieIds: [...state.movieIds,nomid]
+            }))
         })
     }
 
-// CHECK IF MOVIE ID RESULTS MATCH THE NOMINATED MOVIE IDS || IF TRUE DISABLE NOMINATE BUTTON
-    checkID = (id) => {
-            let result = false
+// CHECK IF MOVIE ID RESULTS MATCH THE NOMINATED MOVIE IDS || TRUE=DISABLED / FALSE=ENABLED
+    checkID = (id) => this.state.movieIds.includes(id)
 
-            if(typeof this.state.movieIds === 'object' ) {
-                this.state.movieIds.forEach(movieId => {
-                    if(movieId === id) {
-                        result = true
-                    }
-                }) 
-            }
-            return result
-        }
-
-// CHECK IF MOVIE ID FROM WHAT USER HAS JUST NOMINATED MATCHES THE CURRENT DISPLAYED RESULTS IDS || IF TRUE DISABLE NOMINATE BUTTON
-    checkIDTwo = (id) => {
-        let result = false
-
-        if(typeof this.state.nominated === 'object' ) {
-            this.state.nominated.forEach(movieId => {
-                if(movieId === id) {
-                    result = true
-                }
-            }) 
-        }
-        return result
+// REMOVE NOMINATED MOVIE FROM LIST CONTAINER ADN DATABASE
+    removeId = (id) => {
+        const oldState = [...this.state.movieIds]
+        const newState = oldState.filter(movieId => movieId !== id)
+        this.setState({
+            movieIds: newState,
+        })
     }
 
     render() {
-        // MAPS THROUGH THE PROPS PASSED FROM THE SEARCH COMPONENT
+        // MAP THROUGH THE PROPS PASSED FROM THE SEARCH COMPONENT
         const displayResults = this.props.res.map(results => {
-            const title = results.Title
-            const releaseDate = results.Year
-            const id = results.imdbID
+            const { Title: title, Year: releaseDate, imdbID: id} = results
             const isDisabled = this.checkID(id);
-            const isDisabledTwo = this.checkIDTwo(id)
 
         // DISPLAY RESULTS TO THE DOM 
             return  (  
@@ -143,13 +118,19 @@ class Results extends Component {
                     <p>{title} ({releaseDate})</p>
                     <button 
                         display='false'
-                        disabled={isDisabled  ? 'not disabled' : null || isDisabledTwo ? 'not disabled' : null }
+                        disabled={isDisabled}
                         onClick={this.nominate} 
                         nomtitle={title} 
                         nomyear={releaseDate}
                         nomid={id}
                     >
-                    Nominate
+                    {/* CHANGES TEST FOR WHEN MOVIE IS NOMINATED OF NOT */}
+                    {isDisabled 
+                    ?
+                    'Nominated'
+                    :
+                    'Nominate'
+                    }
                     </button>
                 </li>
             );
@@ -162,7 +143,7 @@ class Results extends Component {
                         {displayResults}
                     </ul>
                 </div>
-                <Nominations className="nominations" />
+                <Nominations className="nominations" removeId={this.removeId} movieIds={this.state.movieIds}/>
             </MainContainer>
         );
     }
