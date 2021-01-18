@@ -74,15 +74,12 @@ class Search extends Component {
         this.setState({
             res: []
         })
-
-        const url = `https://www.omdbapi.com/?s=${userInput}&apikey=f33f3c27`;
+            const url = `https://www.omdbapi.com/?s=${userInput}&apikey=f33f3c27`;
         fetch(url) 
             .then(response => response.json())
             .then(data => {
                 const res = data.Search;
 
-                console.log(res)
-                
                 // ERROR HANDLING IF DATA IS NOT RETURN FROM API
                 if(!res) {
                     this.setState({
@@ -109,7 +106,7 @@ class Search extends Component {
             <>
                 <SearchContainer>
                     <form  onSubmit={this.api}>
-                        <label htmlFor="search">Movie Title</label>
+                        <label htmlFor="search">Enter the Movie Title</label>
                         <input type="search" id="search" name="search" placeholder="&#xf002;  Enter Movie" value={userInput} onChange={this.searchParam} required/>
                         <button>Search</button>
                     </form>

@@ -7,13 +7,28 @@ const Loading = styled.div`
     font-size: 2rem;
     color: #000;
     padding: 50px;
+    
+    .hide {
+        display: none;
+    }
 `;
+
+const List = styled.p`
+    font-weight: 900;
+    font-size: 3rem;
+    color: #000;
+    padding: 10px;
+    text-align: center;
+    letter-spacing: 2.5px;
+`;
+
 
 class Nominations extends Component {
 
     state = {
         movieArray: [],
         count: '',
+        hide: ''
     }
 
     // open portal to Firebase
@@ -32,6 +47,7 @@ class Nominations extends Component {
                     movie: movies[property]
                 });  
             }
+
             this.setState({
                 movieArray
             }, () => {
@@ -52,16 +68,30 @@ class Nominations extends Component {
         this.props.removeId(id)
     }
 
+    // Add hide to className if there are no nominees
+    addHide = () => {
+        if(this.state.count === '') {
+            setTimeout(() => {
+                this.setState({
+                    hide: 'hide'
+                })
+            }, 3000 )
+        }
+    }
+
     render() {
+
+        this.addHide();
         // maps through movies stored in firebase
         const nominated = this.state.movieArray.map(array => {
 
-            const { nomtitle: title, nomyear: releaseDate, nomid: id} = array.movie
+            const { nomtitle: title, nomyear: releaseDate, nomid: id, nomposter: poster} = array.movie
             const key = array.key
-            
+
             return (    <li key={key} id={id}>
-                            <div className="storedMovies">
-                                <p>{title} ({releaseDate})</p>
+                            <div className="nominated">
+                                <img src={poster}/>
+                                <p className="nomInfo">{title} ({releaseDate})</p>
                                 <button onClick={() => this.handleRemove(key, id)} key={key}>
                                 Remove
                                 </button>
@@ -72,10 +102,14 @@ class Nominations extends Component {
 
         return (
             <div className="nomContainer">
+                <List>Nomination List</List>
+
                 {/* informs user the nominated movies are being loaded  */}
                 { this.state.count === ''
                 ?
-                <Loading>loading list of nominated movies...</Loading>
+                <Loading>
+                    <p className={this.state.hide}>loading list of nominated movies...</p>
+                </Loading>
                 :
                 null               
                 }
