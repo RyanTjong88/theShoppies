@@ -13,7 +13,7 @@ class Nominations extends Component {
 
     state = {
         movieArray: [],
-        count: 0,
+        count: '',
     }
 
     // open portal to Firebase
@@ -45,25 +45,24 @@ class Nominations extends Component {
     }
 
     // Remove Saved Song from DOM
-    handleRemove = (key) => {
-
+    handleRemove = (key, id) => {
         // Remove from database
         this.dbRef.child(key).remove(); 
+
+        this.props.removeId(id)
     }
 
     render() {
         // maps through movies stored in firebase
         const nominated = this.state.movieArray.map(array => {
-            
-            const title = array.movie.nomtitle
-            const releaseDate = array.movie.nomyear
-            const id = array.movie.nomid
+
+            const { nomtitle: title, nomyear: releaseDate, nomid: id} = array.movie
             const key = array.key
             
             return (    <li key={key} id={id}>
                             <div className="storedMovies">
                                 <p>{title} ({releaseDate})</p>
-                                <button onClick={() => this.handleRemove(key)} key={key}>
+                                <button onClick={() => this.handleRemove(key, id)} key={key}>
                                 Remove
                                 </button>
                             </div>
@@ -74,7 +73,7 @@ class Nominations extends Component {
         return (
             <div className="nomContainer">
                 {/* informs user the nominated movies are being loaded  */}
-                { this.state.count === 0
+                { this.state.count === ''
                 ?
                 <Loading>loading list of nominated movies...</Loading>
                 :

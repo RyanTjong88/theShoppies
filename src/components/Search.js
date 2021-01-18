@@ -29,6 +29,11 @@ const SearchContainer = styled.div`
             background-color: rgb(0,128,96);
             color: #FFF;
         }
+
+        button {
+            width: 120px;
+            margin-top: 10px;
+        }
     }
 `;
 
@@ -76,7 +81,9 @@ class Search extends Component {
             .then(data => {
                 const res = data.Search;
 
-                // ERROR HANDLING IF DATA NT RETURN FROM API
+                console.log(res)
+                
+                // ERROR HANDLING IF DATA IS NOT RETURN FROM API
                 if(!res) {
                     this.setState({
                         error: 'Movie title not found',
@@ -104,6 +111,7 @@ class Search extends Component {
                     <form  onSubmit={this.api}>
                         <label htmlFor="search">Movie Title</label>
                         <input type="search" id="search" name="search" placeholder="&#xf002;  Enter Movie" value={userInput} onChange={this.searchParam} required/>
+                        <button>Search</button>
                     </form>
                 </SearchContainer>
 
