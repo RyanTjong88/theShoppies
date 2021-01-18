@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Nominations from './Nominations';
 import firebase from '../firebase';  
 import styled from 'styled-components';
+import swal from 'sweetalert';
 
 const MainContainer = styled.div`
     display: flex;
@@ -21,6 +22,11 @@ const MainContainer = styled.div`
         min-height: 600px;
     }
 
+    img {
+        width: 150px;
+        margin: 10px 0;
+    }
+
     /* TABLET MEDIA QUERY*/
     @media (max-width: 850px) {
         flex-direction: column;
@@ -37,7 +43,8 @@ class Results extends Component {
         firebaseData: {
             nomtitle: '',
             nomyear: '',
-            nomid: ''
+            nomid: '',
+            nomposter: ''
         },
         movieArray: [],
         movieIds: [],
@@ -81,17 +88,28 @@ class Results extends Component {
         const nomtitle = e.target.attributes.nomtitle.value
         const nomyear =  e.target.attributes.nomyear.value
         const nomid =  e.target.attributes.nomid.value
-
-        this.dbRef.push({
-            nomtitle,
-            nomyear,
-            nomid
-        }).then(() => {
-            // Update movieIds with current nominated list items
-            this.setState(state => ({
-                movieIds: [...state.movieIds,nomid]
-            }))
-        })
+        const nomposter =  e.target.attributes.nomposter.value
+        
+        if(this.state.movieIds.length < 5) {
+            this.dbRef.push({
+                nomtitle,
+                nomyear,
+                nomid,
+                nomposter
+            }).then(() => {
+                // Update movieIds with current nominated list items
+                this.setState(state => ({
+                    movieIds: [...state.movieIds,nomid]
+                }))
+            })
+        }  if(this.state.movieIds.length === 5) {
+            // DISPLAYS AN ALERT LIMIT HAS BEEN REACHED
+                swal({
+                title: "Nomination limit reached! Remove to add a different Movie",
+                icon: "error",
+                button: "OK",
+            });
+        }
     }
 
 // CHECK IF MOVIE ID RESULTS MATCH THE NOMINATED MOVIE IDS || TRUE=DISABLED / FALSE=ENABLED
@@ -109,13 +127,14 @@ class Results extends Component {
     render() {
         // MAP THROUGH THE PROPS PASSED FROM THE SEARCH COMPONENT
         const displayResults = this.props.res.map(results => {
-            const { Title: title, Year: releaseDate, imdbID: id} = results
+            const { Title: title, Year: releaseDate, imdbID: id, Poster} = results
             const isDisabled = this.checkID(id);
 
         // DISPLAY RESULTS TO THE DOM 
             return  (  
-                <li className="storedMovies" key={id} id={id}>
+                <li className="movies" key={id} id={id}>
                     <p>{title} ({releaseDate})</p>
+                    <img src={Poster}/>
                     <button 
                         display='false'
                         disabled={isDisabled}
@@ -123,6 +142,7 @@ class Results extends Component {
                         nomtitle={title} 
                         nomyear={releaseDate}
                         nomid={id}
+                        nomposter={Poster}
                     >
                     {/* CHANGES TEST FOR WHEN MOVIE IS NOMINATED OF NOT */}
                     {isDisabled 

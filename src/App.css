@@ -46,7 +46,13 @@ input {
   margin: 0 auto;
 }
 
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
 li {
+  display: fle;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -114,39 +120,77 @@ h1 {
   text-align: center;
 }
 
-.storedMovies {
+.movies {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  padding: 10px 30px;
+}
+
+.nominated {
   display: flex;
   justify-content: space-between;
   width: 100%;
   padding: 10px 30px;
 }
 
-/* MEDIA QUERY */
-@media (max-width: 850px) {
+.nomInfo {
+  margin-bottom: 10px;
+}
 
+/* MEDIA QUERY */
+
+@media (max-width: 1300px) {
+  .nominated {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 850px) {
   .nomContainer {
       width: 100%;
       margin-top: 20px;
+  }
+
+  .nominated {
+    flex-direction: column;
+    align-items: center;
+    /* width: 100%; */
   }
 }
 @media (max-width: 550px) {
   .headerBackground {
     display: none;
   }
+
+  ul {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .movies,
+  .nominated {
+    flex-direction: column;
+    width: 100%;
+    padding: 5px 10px;
+  }
 } 
 
 @media (max-width: 420px) {
-
   h1 {
     font-size: 4rem;
   }
 
-  .storedMovies {
-    flex-direction: column;
+  li {
+    padding: 5px;
   }
 
   button {
-    margin-top: 20px;
+    width: 100%;
   }
 }
 
