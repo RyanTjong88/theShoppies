@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/theShoppies/static/css/main.4e07c57e.chunk.css",
-    "main.js": "/theShoppies/static/js/main.c7a07d82.chunk.js",
-    "main.js.map": "/theShoppies/static/js/main.c7a07d82.chunk.js.map",
-    "runtime-main.js": "/theShoppies/static/js/runtime-main.5d0bb9b6.js",
-    "runtime-main.js.map": "/theShoppies/static/js/runtime-main.5d0bb9b6.js.map",
-    "static/js/2.09da6770.chunk.js": "/theShoppies/static/js/2.09da6770.chunk.js",
-    "static/js/2.09da6770.chunk.js.map": "/theShoppies/static/js/2.09da6770.chunk.js.map",
-    "static/js/3.564bbeb1.chunk.js": "/theShoppies/static/js/3.564bbeb1.chunk.js",
-    "static/js/3.564bbeb1.chunk.js.map": "/theShoppies/static/js/3.564bbeb1.chunk.js.map",
+    "main.js": "/theShoppies/static/js/main.426754d4.chunk.js",
+    "main.js.map": "/theShoppies/static/js/main.426754d4.chunk.js.map",
+    "runtime-main.js": "/theShoppies/static/js/runtime-main.7e17d618.js",
+    "runtime-main.js.map": "/theShoppies/static/js/runtime-main.7e17d618.js.map",
+    "static/js/2.2b13acf3.chunk.js": "/theShoppies/static/js/2.2b13acf3.chunk.js",
+    "static/js/2.2b13acf3.chunk.js.map": "/theShoppies/static/js/2.2b13acf3.chunk.js.map",
+    "static/js/3.6645b35f.chunk.js": "/theShoppies/static/js/3.6645b35f.chunk.js",
+    "static/js/3.6645b35f.chunk.js.map": "/theShoppies/static/js/3.6645b35f.chunk.js.map",
     "index.html": "/theShoppies/index.html",
     "static/css/main.4e07c57e.chunk.css.map": "/theShoppies/static/css/main.4e07c57e.chunk.css.map",
-    "static/js/2.09da6770.chunk.js.LICENSE.txt": "/theShoppies/static/js/2.09da6770.chunk.js.LICENSE.txt"
+    "static/js/2.2b13acf3.chunk.js.LICENSE.txt": "/theShoppies/static/js/2.2b13acf3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.5d0bb9b6.js",
-    "static/js/2.09da6770.chunk.js",
+    "static/js/runtime-main.7e17d618.js",
+    "static/js/2.2b13acf3.chunk.js",
     "static/css/main.4e07c57e.chunk.css",
-    "static/js/main.c7a07d82.chunk.js"
+    "static/js/main.426754d4.chunk.js"
   ]
 }
